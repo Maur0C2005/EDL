@@ -234,10 +234,16 @@ void loop() {
     uint16_t val1 = floor(c);
     uint16_t val2 = ((uint16_t)floor(c*10)) % 10;
     if(range == range_nF){
-      sprintf(msg, "%d.%d nF", val1, val2);
+        sprintf(msg, "%d.%d nF", val1, val2);
     }
-    if(range == range_uF){
-      sprintf(msg, "%d.%d uF", val1, val2);
+    else if(range == range_uF){
+        sprintf(msg, "%d.%d uF", val1, val2);
+    }
+    else if(range == noCap){
+        strcpy(msg, "No capacitor");
+    }
+    else if(range == outOfRange){
+        strcpy(msg, "Out of range");
     }
     lcd.clear();
     lcd.write(msg, 0, 0);
