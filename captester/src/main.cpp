@@ -11,7 +11,7 @@
 
 #define MCP_RESET_PIN 8
 
-LCD lcd(MCP_RESET_PIN);
+LCD lcd(MCP_RESET_PIN, 0x27);
 
 unsigned long prevOscInt = 0;
 unsigned long oscPeriod;
@@ -58,7 +58,10 @@ void setRange(Range_t r){
 
 // function to compute the capacity from the oscillation period
 float compute_c(){
-  Serial.println(oscPeriod);
+  Serial.print("[OSC] Periode: ");
+  Serial.print(oscPeriod);
+  Serial.println(" us");
+  
   float c = 1.443*oscPeriod;
 
   if(range == range_uF){
@@ -262,3 +265,39 @@ void loop() {
     delay(500);
   }
 }
+
+
+// I2C SCANNER
+
+// #include <Arduino.h>
+// #include <Wire.h>
+
+// #define MCP_RESET_PIN 8
+
+// void setup() {
+//     Serial.begin(115200);
+
+//     pinMode(MCP_RESET_PIN, OUTPUT);
+//     digitalWrite(MCP_RESET_PIN, LOW);
+//     delay(100);
+//     digitalWrite(MCP_RESET_PIN, HIGH);
+//     delay(10);
+
+//     Wire.begin();
+
+//     Serial.println("I2C scanner gestart");
+// }
+
+// void loop() {
+//     for (uint8_t address = 1; address < 127; address++) {
+//         Wire.beginTransmission(address);
+
+//         if (Wire.endTransmission() == 0) {
+//             Serial.print("I2C device gevonden: 0x");
+//             Serial.println(address, HEX);
+//         }
+//     }
+
+//     Serial.println("Scan klaar");
+//     delay(2000);
+// }

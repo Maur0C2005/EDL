@@ -33,6 +33,7 @@ void LCD::begin(){
     pinMode(this->_mcpResetPin, OUTPUT);
     digitalWrite(this->_mcpResetPin, LOW);
     delay(100);
+    digitalWrite(this->_mcpResetPin, HIGH);
     
     // start I2C com. with IO expander
     if (!this->_mcp.begin_I2C(this->_mcpAddress)) {
@@ -52,7 +53,7 @@ void LCD::begin(){
 }
 
 void LCD::write(const char * text){
-    Serial.println(strlen(text));
+    //Serial.println(strlen(text));
     for(uint8_t i=0; i<strlen(text); i++){
         this->data(text[i]);
     }
