@@ -110,7 +110,7 @@ float compute_c(){
     }
   }
   else{
-    //setRange(range_nF);
+    setRange(range_nF);
   }
 
 #ifdef DEBUG
@@ -167,7 +167,7 @@ void osc_int(void){
   unsigned long now = micros();
   oscPeriod = (unsigned long) now - prevOscInt;
   prevOscInt = now;
-  if(oscPeriod<20){
+  if(oscPeriod<10){
     oscOff = true;
     detachInterrupt(digitalPinToInterrupt(OSC_IN_PIN));
   }
@@ -197,7 +197,7 @@ void setup() {
 
   pinMode(RANGE_SEL_PIN, OUTPUT);
   setRange(range_nF);
-  autoRange = false;
+  autoRange = true;
 
   pinMode(SW2_PIN, INPUT);
 
@@ -275,39 +275,3 @@ void loop() {
     delay(500);
   }
 }
-
-
-// I2C SCANNER
-
-// #include <Arduino.h>
-// #include <Wire.h>
-
-// #define MCP_RESET_PIN 8
-
-// void setup() {
-//     Serial.begin(115200);
-
-//     pinMode(MCP_RESET_PIN, OUTPUT);
-//     digitalWrite(MCP_RESET_PIN, LOW);
-//     delay(100);
-//     digitalWrite(MCP_RESET_PIN, HIGH);
-//     delay(10);
-
-//     Wire.begin();
-
-//     Serial.println("I2C scanner gestart");
-// }
-
-// void loop() {
-//     for (uint8_t address = 1; address < 127; address++) {
-//         Wire.beginTransmission(address);
-
-//         if (Wire.endTransmission() == 0) {
-//             Serial.print("I2C device gevonden: 0x");
-//             Serial.println(address, HEX);
-//         }
-//     }
-
-//     Serial.println("Scan klaar");
-//     delay(2000);
-// }
