@@ -14,7 +14,7 @@
 LCD lcd(MCP_RESET_PIN, 0x27);
 
 unsigned long prevOscInt = 0;
-unsigned long oscPeriod;
+volatile long oscPeriod=0;
 
 typedef enum ranges{
   range_nF,
@@ -24,7 +24,7 @@ typedef enum ranges{
 } Range_t;
 
 Range_t range = range_nF;
-bool autoRange = true;
+bool autoRange = false;
 volatile bool oscOff = false;
 
 unsigned long updatePeriod = 1000;
@@ -64,11 +64,14 @@ float compute_c(){
   
   float c = 1.443*oscPeriod;
 
+  Serial.print("[DEBUG] Range: ");
+  Serial.println(range);
+
   if(range == range_uF){
-    c /= 1000;
+    c /= 100000;
   }
   else{
-    c /= 100;
+    c /= 1;
   }
 
   if(autoRange){
@@ -107,7 +110,7 @@ float compute_c(){
     }
   }
   else{
-    setRange(range_nF);
+    //setRange(range_nF);
   }
 
 #ifdef DEBUG
@@ -193,7 +196,8 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(OSC_IN_PIN), &osc_int, RISING);
 
   pinMode(RANGE_SEL_PIN, OUTPUT);
-  setRange(range_uF);
+  setRange(range_nF);
+  autoRange = false;
 
   pinMode(SW2_PIN, INPUT);
 
